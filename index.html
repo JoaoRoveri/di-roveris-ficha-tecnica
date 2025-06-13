@@ -81,8 +81,56 @@
 <body>
   <h1>Ficha Técnica - Di Roveri's</h1>
   <form id="fichaForm">
-    <!-- Campos do formulário -->
-    <!-- ... (mesma estrutura anterior) ... -->
+    <label>Nome do cliente</label>
+    <input type="text" name="cliente" required>
+    <label>Data</label>
+    <input type="date" name="data" required>
+
+    <div class="grid">
+      <label>Colarinho <input type="number" name="colarinho" required></label>
+      <label>Ombro <input type="number" name="ombro" required></label>
+      <label>Tórax <input type="number" name="torax" required></label>
+      <label>Cintura <input type="number" name="cintura" required></label>
+      <label>Barra/Quadril <input type="number" name="quadril" required></label>
+      <label>Comprimento <input type="number" name="comprimento" required></label>
+      <label>Manga <input type="number" name="manga" required></label>
+      <label>Bíceps <input type="number" name="biceps" required></label>
+      <label>Antebraço <input type="number" name="antebraco" required></label>
+      <label>Punho <input type="number" name="punho" required></label>
+    </div>
+
+    <label>Manequim</label>
+    <select name="manequim" required>
+      <option value="">Selecione</option>
+      <option value="38">38</option>
+      <option value="40">40</option>
+      <option value="42">42</option>
+      <option value="44">44</option>
+      <option value="46">46</option>
+      <option value="48">48</option>
+      <option value="50">50</option>
+      <option value="52">52</option>
+      <option value="54">54</option>
+      <option value="56">56</option>
+      <option value="58">58</option>
+      <option value="60">60</option>
+      <option value="62">62</option>
+    </select>
+
+    <label>Tipo de colarinho</label>
+    <input type="text" name="colarinho_tipo" required>
+    <label>Tipo de punho</label>
+    <input type="text" name="punho_tipo" required>
+    <label>Modelagem</label>
+    <input type="text" name="modelagem" required>
+    <label>Monograma (opcional)</label>
+    <input type="text" name="monograma">
+    <label>Valor da camisa</label>
+    <input type="text" name="valor" required>
+    <label>Previsão de entrega</label>
+    <input type="date" name="entrega" required>
+    <label>Observações</label>
+    <textarea name="obs"></textarea>
 
     <button type="button" onclick="gerarPDF()">Gerar PDF</button>
     <button type="button" onclick="gerarExcel()">Gerar Excel</button>
