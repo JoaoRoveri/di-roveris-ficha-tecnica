@@ -1,136 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ficha Técnica - Di Roveri's</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ficha Técnica Di Roveri’s</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #f7f7f7;
-      color: #333;
-      padding: 20px;
-    }
-    h1 {
-      font-family: 'Cinzel', serif;
-      color: #D4AF37;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 900px;
-      margin: auto;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 600;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #D4AF37;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-top: 20px;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-right: 10px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 10px;
-    }
-    .pdf-container {
-      display: none;
-      padding: 20px;
-      background: white;
-    }
-    .logo {
-      font-family: 'Cinzel', serif;
-      color: #D4AF37;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .croqui {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 400px;
-    }
-    @media print {
-      button { display: none; }
-    }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; color: #333; }
+    h1 { color: #D4AF37; text-align: center; }
+    form { background: #fff; padding: 20px; border-radius: 10px; max-width: 800px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+    button { margin-top: 20px; padding: 10px 15px; background: #D4AF37; color: white; border: none; cursor: pointer; border-radius: 5px; }
+    .double { display: flex; gap: 10px; }
+    .double input { width: 100%; }
+    #preview { display: none; padding: 20px; background: white; max-width: 800px; margin: 30px auto; border: 1px solid #ccc; }
   </style>
 </head>
 <body>
-  <h1>Ficha Técnica - Di Roveri's</h1>
-  <form id="fichaForm">
-    <!-- Campos do formulário -->
-    <!-- ... (mesma estrutura anterior) ... -->
+<h1>Ficha Técnica Di Roveri’s</h1>
+<form id="fichaForm">
+  <label>Nome do Cliente</label>
+  <input type="text" id="nome" required />
+  <label>Número de Telefone</label>
+  <input type="text" id="telefone" />
+  <label>Data do Pedido</label>
+  <input type="date" id="dataPedido" />
+  <label>Enviado?</label>
+  <select id="enviado"><option value="Sim">Sim</option><option value="Não">Não</option></select>
+  <label>Previsão de Entrega</label>
+  <input type="date" id="entrega" />
+  <h3>Medidas</h3>
+  <div class="double"><input placeholder="Colarinho" id="colarinho" /><input placeholder="Tipo de Colarinho" id="colarinhoTipo" /></div>
+  <div class="double"><input placeholder="Tórax" id="torax" /><input placeholder="Tipo de Frente" id="frenteTipo" /></div>
+  <div class="double"><input placeholder="Pala" id="pala" /><input placeholder="Tipo de Pense" id="penseTipo" /></div>
+  <input placeholder="Manga" id="manga" />
+  <div class="double"><input placeholder="Antebraço" id="antebraco" /><input placeholder="Slim ou Confort" id="slimConfort" /></div>
+  <input placeholder="Bíceps" id="biceps" />
+  <div class="double"><input placeholder="Punho Direito" id="punhoDir" /><input placeholder="Punho Esquerdo" id="punhoEsq" /></div>
+  <input placeholder="Cintura" id="cintura" />
+  <input placeholder="Quadril" id="quadril" />
+  <input placeholder="Comprimento Total" id="comprimento" />
+  <h3>Detalhes Finais</h3>
+  <input placeholder="Colarinho" id="finalColarinho" />
+  <input placeholder="Punhos" id="finalPunhos" />
+  <input placeholder="Frente" id="finalFrente" />
+  <input placeholder="Monograma" id="monograma" />
+  <input placeholder="Botões" id="botoes" />
+  <label>Observações</label>
+  <textarea id="obs"></textarea>
+  <h3>Pedido</h3>
+  <div class="double"><input placeholder="Ref" id="ref" /><input placeholder="Quantidade" id="quantidade" /></div>
+  <div class="double"><input placeholder="Fornecedor" id="fornecedor" /><input placeholder="Pedido" id="pedido" /><input placeholder="Tecido" id="tecido" /></div>
+  <button type="button" onclick="gerarExcel()">Gerar Excel</button>
+  <button type="button" onclick="gerarPDF()">Gerar PDF</button>
+</form>
 
-    <button type="button" onclick="gerarPDF()">Gerar PDF</button>
-    <button type="button" onclick="gerarExcel()">Gerar Excel</button>
-    <button type="submit">Imprimir</button>
-  </form>
+<div id="preview"></div>
 
-  <div id="pdfContainer" class="pdf-container"></div>
+<script>
+function gerarExcel() {
+  const data = [
+    ["Di Roveri´s sob medida"],
+    [],
+    ["NOME CLIENTE", document.getElementById('nome').value],
+    ["NÚMERO DE TELEFONE", document.getElementById('telefone').value],
+    ["DATA PEDIDO", document.getElementById('dataPedido').value, "ENVIADO", document.getElementById('enviado').value],
+    ["PREVISÃO ENTREGA", document.getElementById('entrega').value],
+    [],
+    ["MEDIDAS"],
+    ["COLARINHO", document.getElementById('colarinho').value, "TIPO DE COLAR", document.getElementById('colarinhoTipo').value],
+    ["TÓRAX", document.getElementById('torax').value, "TIPO DE FRENTE", document.getElementById('frenteTipo').value],
+    ["PALA", document.getElementById('pala').value, "TIPO DE PENSE", document.getElementById('penseTipo').value],
+    ["MANGA", document.getElementById('manga').value],
+    ["ANTEBRAÇO", document.getElementById('antebraco').value, "SLIM (  ) CONFORT (  )", document.getElementById('slimConfort').value],
+    ["BÍCEPS", document.getElementById('biceps').value],
+    ["PUNHO DIREITO", document.getElementById('punhoDir').value, "PUNHO ESQUERDO", document.getElementById('punhoEsq').value],
+    ["CINTURA", document.getElementById('cintura').value],
+    ["QUADRIL", document.getElementById('quadril').value],
+    ["COMPRIMENTO TOTAL", document.getElementById('comprimento').value],
+    [],
+    ["COLARINHO", document.getElementById('finalColarinho').value, "PUNHOS", document.getElementById('finalPunhos').value, "FRENTE", document.getElementById('finalFrente').value],
+    ["MONOGRAMA", document.getElementById('monograma').value, "BOTÕES", document.getElementById('botoes').value],
+    [],
+    ["OBSERVAÇÕES", document.getElementById('obs').value],
+    [],
+    ["REF", document.getElementById('ref').value, "QUANTIDADE", document.getElementById('quantidade').value, "FORNECEDOR", document.getElementById('fornecedor').value],
+    ["PEDIDO", document.getElementById('pedido').value, "TECIDO", document.getElementById('tecido').value]
+  ];
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Ficha");
+  XLSX.writeFile(wb, "Ficha_Tecnica_DiRoveris.xlsx");
+}
 
-  <script>
-    async function gerarPDF() {
-      const form = document.getElementById('fichaForm');
-      if (!form.checkValidity()) {
-        alert('Preencha todos os campos obrigatórios.');
-        return;
-      }
-      const data = new FormData(form);
-      const cliente = data.get('cliente');
-      const container = document.getElementById('pdfContainer');
-      container.innerHTML = `<div style="font-family: Montserrat; padding: 20px; max-width: 800px;">
-        <div class="logo">Di Roveri’s - Ficha Técnica</div>
-        ${[...data.entries()].map(([k, v]) => `<div><strong>${k}:</strong> ${v}</div>`).join('')}
-        <br><img class="croqui" src="croqui.png" alt="Croqui da camisa">
-      </div>`;
-      container.style.display = 'block';
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      await html2canvas(container).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
-        doc.save(`Ficha_Tecnica_${cliente}.pdf`);
-        container.style.display = 'none';
-      });
-    }
+async function gerarPDF() {
+  const form = document.getElementById('fichaForm');
+  const clone = form.cloneNode(true);
+  clone.style.maxWidth = '600px';
+  const preview = document.getElementById('preview');
+  preview.innerHTML = '';
+  preview.appendChild(clone);
+  preview.style.display = 'block';
 
-    function gerarExcel() {
-      const data = new FormData(document.getElementById('fichaForm'));
-      const entries = [...data.entries()];
-      const worksheet = entries.map(([k, v]) => [k, v]);
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.aoa_to_sheet(worksheet);
-      XLSX.utils.book_append_sheet(wb, ws, "Ficha");
-      XLSX.writeFile(wb, "Ficha_Tecnica_DiRoveris.xlsx");
-    }
-
-    document.getElementById('fichaForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      window.print();
-    });
-  </script>
+  const { jsPDF } = window.jspdf;
+  await html2canvas(preview).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const doc = new jsPDF();
+    doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
+    doc.save("Ficha_Tecnica_DiRoveris.pdf");
+    preview.style.display = 'none';
+  });
+}
+</script>
 </body>
 </html>
