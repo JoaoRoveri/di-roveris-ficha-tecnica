@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha Técnica - Di Roveri's</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      color: #D4AF37;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #D4AF37;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .pdf-container {
+      display: none;
+      padding: 20px;
+      background: white;
+    }
+    .logo {
+      font-family: 'Cinzel', serif;
+      color: #D4AF37;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .croqui {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+    @media print {
+      button { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Ficha Técnica - Di Roveri's</h1>
+  <form id="fichaForm">
+    <!-- Campos do formulário -->
+    <!-- ... (mesma estrutura anterior) ... -->
+
+    <button type="button" onclick="gerarPDF()">Gerar PDF</button>
+    <button type="button" onclick="gerarExcel()">Gerar Excel</button>
+    <button type="submit">Imprimir</button>
+  </form>
+
+  <div id="pdfContainer" class="pdf-container"></div>
+
+  <script>
+    async function gerarPDF() {
+      const form = document.getElementById('fichaForm');
+      if (!form.checkValidity()) {
+        alert('Preencha todos os campos obrigatórios.');
+        return;
+      }
+      const data = new FormData(form);
+      const cliente = data.get('cliente');
+      const container = document.getElementById('pdfContainer');
+      container.innerHTML = `<div style="font-family: Montserrat; padding: 20px; max-width: 800px;">
+        <div class="logo">Di Roveri’s - Ficha Técnica</div>
+        ${[...data.entries()].map(([k, v]) => `<div><strong>${k}:</strong> ${v}</div>`).join('')}
+        <br><img class="croqui" src="croqui.png" alt="Croqui da camisa">
+      </div>`;
+      container.style.display = 'block';
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      await html2canvas(container).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
+        doc.save(`Ficha_Tecnica_${cliente}.pdf`);
+        container.style.display = 'none';
+      });
+    }
+
+    function gerarExcel() {
+      const data = new FormData(document.getElementById('fichaForm'));
+      const entries = [...data.entries()];
+      const worksheet = entries.map(([k, v]) => [k, v]);
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(worksheet);
+      XLSX.utils.book_append_sheet(wb, ws, "Ficha");
+      XLSX.writeFile(wb, "Ficha_Tecnica_DiRoveris.xlsx");
+    }
+
+    document.getElementById('fichaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.print();
+    });
+  </script>
+</body>
+</html>
